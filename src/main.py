@@ -1,4 +1,7 @@
 import typer
+
+from typing_extensions import Annotated
+
 import json
 import os
 
@@ -9,11 +12,18 @@ app = typer.Typer()
 
 
 @app.command()
-def run(input_sbom: str, output_sbom: str, orig_sbom: str = ""):
-    print(f"Running application")
-
+def run(input_sbom: str, output_sbom: str, orig_sbom: Annotated[str, typer.Argument()] = ""):
+    """
+    Read input_sbom in CycloneDX format and send to Snyk SBOM Test API endpoint. 
+    
+    Any vulnerabilities found in the SBOM will be printed to console. 
+    
+    If optional paramter orig_sbom is provided, the newly generated SBOM will be compared to the original, 
+    and the differences will be printed to console.
+    """
     print(f"Input:  {input_sbom}")
-    print(f"Output: {orig_sbom}")    
+    print(f"Orig:   {orig_sbom}")
+    print(f"Output: {output_sbom}")
 
     api_token = os.environ["SNYK_TOKEN"]
     org_id = os.environ["SNYK_ORG_ID"]
@@ -31,6 +41,10 @@ def run(input_sbom: str, output_sbom: str, orig_sbom: str = ""):
     compare = CompareSbom()
 
     compare.compare(output_sbom, orig_sbom)
+
+    diff = compare.diff(output_sbom, orig_sbom)
+
+    print(diff)
 
 if __name__ == "__main__":
     app()

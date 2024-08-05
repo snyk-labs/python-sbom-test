@@ -62,6 +62,20 @@ class CompareSbom():
 
             return ret_obj
 
+    def diff(self, new_sbom: str, orig_sbom: str = ""):
+        new_sbom_json = self.load_sbom(new_sbom)
+
+        if orig_sbom == "":
+            return new_sbom_json
+
+        orig_sbom_json = self.load_sbom(orig_sbom)
+
+        return jsondiff.diff(new_sbom_json, orig_sbom_json)
+
+    def load_sbom(self, file: str):
+        with open(file, 'r') as input:
+            return json.load(input)
+    
     def load_sbom_vulns(self, file: str):
         with open(file, 'r') as input:
             input_json = json.load(input)

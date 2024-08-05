@@ -11,7 +11,7 @@
             "cwd": "${workspaceFolder}/src/",
             "module": "main",
             "console": "integratedTerminal",
-            "args": ["input/sbom-zlib.json", "output/output_cyclonedx.json"]
+            "args": ["input/sbom-zlib.json", "output/output_cyclonedx.json", "output/output_cyclonedx.json"]
         }
     ]
 }
