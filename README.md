@@ -1,6 +1,6 @@
 # Overview
 
-This repository may be used as a starting point for Python applications using Poetry for dependency management and Typer for CLI implementation.
+This repository may be used as a starting point for Python applications using Poetry for using Snyk SBOM test and get a simple diff between scans.
 
 ## Setup
 Need to have the following environment variables set; SNYK_TOKEN and SNYK_ORG_ID
