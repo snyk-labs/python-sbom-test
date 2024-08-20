@@ -55,9 +55,18 @@ class SbomTestApi():
             "Authorization": f"token {api_token}"
         }
 
-        response = requests.get(url, headers=headers)
+        completed = False
+
+        while not completed:
+            response = requests.get(url, headers=headers)
+                
+            if response.status_code >= 300:
+                raise Exception(f"Expected 2xx response, received {response.status_code}")
             
-        if response.status_code >= 300:
-            raise Exception(f"Expected 2xx response, received {response.status_code}")
-        
-        return response.json()
+            payload = response.json()
+
+            status = payload["data"]["attributes"].get("status")
+
+            if status is None or status == "finished":
+                completed = True
+                return payload 
